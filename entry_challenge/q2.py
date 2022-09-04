@@ -67,12 +67,12 @@ def to_cumulative_delayed(stream: list, quantity_block: int):
             buffer.insert(0, k)
             output.append(','.join(buffer))
 
-    # print("output", output)
+    print("output", output)
     return output
 
 
 to_cumulative_delayed([
-    '00:00,A,6,5.6',
+    '00:00,A,60,5.6',
     '00:01,A,5,5.6',
     '00:02,A,1,5.6',
 ], 5)
