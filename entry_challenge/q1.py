@@ -40,4 +40,3 @@ def to_cumulative(stream: list):
 
     # print(output)
     return output
-

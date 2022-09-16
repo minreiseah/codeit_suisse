@@ -73,6 +73,8 @@ def to_cumulative_delayed(stream: list, quantity_block: int):
 
 to_cumulative_delayed([
     '00:00,A,60,5.6',
+    '00:00,A,60,5.6',
+    '00:00,A,60,5.6',
     '00:01,A,5,5.6',
     '00:02,A,1,5.6',
 ], 5)
