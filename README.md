@@ -1,5 +1,10 @@
 # Credit Suisse CodeIt Challenge
 
+## Figure out how to deploy to heroku
+
+
+
+
 ## Assumptions for Q1
 
 - (Given) `timestamp` is in the format hh:mm
