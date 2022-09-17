@@ -12,46 +12,57 @@ def tickerstreampart1():
     return json.dumps(result)
 
 def to_cumulative(stream: list):
-    df = []
 
-    # creation of '2d' array
+    # create 2d list for stream
+    df = []
     for row in stream:
         row = row.split(',')
         df.append(row)
 
-    # sort by time, and ticker
-    # implemented in reverse order
-    df.sort(key=lambda x: x[1])
-    df.sort(key=lambda x: x[0])
+    # sort df by timestamp
+    df.sort(key= lambda i: i[0])
 
-    # put data into dicts to track their values over time
-    timestamp_dict = {}
-    cqty_dict = {}
-    cntl_dict = {}
+    # list stores the aggregated stream
+    new_df = [[df[0][0]]]
+
+    # dicts keep track of cumulative quantity and notional for each ticker
+    c_qty = defaultdict(lambda: 0)
+    c_not = defaultdict(lambda: 0)
+    
+    # set keeps track of tickers that appear at current timestamp
+    tickers_here = set()
+
     for row in df:
         timestamp = row[0]
         ticker = row[1]
         qty = int(row[2])
         price = float(row[3])
-        if(ticker in cqty_dict):
-            cqty_dict[ticker] += qty
-            cntl_dict[ticker] += qty * price
-        else:
-            cqty_dict[ticker] = qty
-            cntl_dict[ticker] = qty * price
+        
+        # if timestamp is different from previous timestamp
+        if timestamp != new_df[-1][0]:
+            # append [ticker, c_qty, c_not] for each element in tickers_here, and clear it once done
+            for tickers in sorted(tickers_here):
+                new_df[-1].extend([tickers, c_qty[tickers], round(c_not[tickers],1)])
+            tickers_here.clear()
+            # add a new row
+            new_df.append([timestamp])
+        
+        # update cumulatives
+        c_qty[ticker] += qty
+        c_not[ticker] += qty * price
 
-        t_row = [ticker, str(cqty_dict[ticker]), str(cntl_dict[ticker])]
-        if(timestamp in timestamp_dict):
-            timestamp_dict[timestamp] += ',' + ','.join(t_row)
-        else:
-            timestamp_dict[timestamp] = ','.join(t_row)
+        # remember ticker at this timestamp
+        tickers_here.add(ticker)
 
-    # add data into output list
+    # add last row
+    for tickers in sorted(tickers_here):
+        new_df[-1].extend([tickers, c_qty[tickers], round(c_not[tickers],1)])
+
+    # flatten new_df using list comprehension magic
     output = []
-    for k, v in timestamp_dict.items():
-        output.append(','.join([k, v]))
+    for row in new_df:
+        output.append(",".join([str(i) for i in row]))
 
-    # print(output)
     return output
 
 @app.route('/tickerStreamPart2', methods=['POST'])
@@ -123,18 +134,3 @@ def to_cumulative_delayed(stream: list, quantity_block: int):
         output.append(",".join([str(i) for i in row]))
 
     return output
-
-
-print(to_cumulative_delayed([
-    '00:03,C,6,5',
-    '00:05,C,5,4',
-    '00:05,A,1,1',
-    '00:00,A,1,2',
-    '00:02,A,1,3',
-    '00:03,A,1,4',
-    '00:04,A,1,5',
-    '00:06,A,7,5.6',
-    '00:05,B,25,5.6',
-    '00:06,A,7,5.6',
-    '00:06,A,7,5.6'
-], 5))
