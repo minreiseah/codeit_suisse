@@ -23,11 +23,17 @@ def cryptocollapztest():
     stream = [[1,2,3,4], [1,2,3,4]]
     result = []
     for tc in stream:
-        buf = []
-        for i in range(len(tc)):
-            buf.append(calc_max(tc[i]))
-        result.append(buf) 
-
+        tc_result = []
+        for i in tc:
+            max = i
+            while i != 1:
+                if i % 2 != 0:
+                    i = i * 3 + 1
+                    if i > max:
+                        max = i
+                i /= 2
+            tc_result.append(max)
+        result.append(tc_result) 
     return jsonify(result)
 
 def calc_max(x : int):
