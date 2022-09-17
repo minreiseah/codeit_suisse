@@ -48,7 +48,7 @@ def travelling():
 #     return output
 
 def make_grid(data):
-    str = data.decode()[:-1].split('\n')
+    str = data.decode()[:-1].split()
     output = []
     for s in str:
         buf = []
