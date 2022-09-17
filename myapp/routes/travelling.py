@@ -13,6 +13,7 @@ def travelling():
     data = request.get_data()
     logging.info("data given: {}".format(data))
     grid = make_grid(data)
+    logging.info("grid: {}".format(grid))
     indices = get_indices(grid)
     routes = get_routes(indices)
 
@@ -28,7 +29,6 @@ def travelling():
     best_path = routes[mn_idx]['path']
     # logging.info("length: {}". format(len(best_path)))
     # logging.info("path: {}".format(best_path))
-    # logging.info("grid: {}".format(grid))
     # logging.info("indices: {}".format(indices))
 
     return best_path
@@ -40,11 +40,24 @@ def travelling():
 # data = '\n\nIEXD\x00\x00CTUSIEOSS\n'
 
 
+# def make_grid(data):
+#     suss = [x for x in data.split('\n') if x != '']
+#     output = []
+#     for s in suss:
+#         output.append(s.replace('\x00', '0'))
+#     return output
+
 def make_grid(data):
-    suss = [x for x in data.split('\\n') if x != '']
+    str = data.decode()[:-1].split('\n')
     output = []
-    for s in suss:
-        output.append(s.replace('\\x00', '0'))
+    for s in str:
+        buf = []
+        for i in range(len(s)):
+            if(s[i] == '\x00'):
+                buf += '0'
+            else:
+                buf += s[i]
+        output.append(buf)
     return output
 
 def get_indices(grid):
@@ -132,6 +145,7 @@ def get_distance(v1, v2, pos):
 
 # # logging.info(data)
 # grid = make_grid(data)
+# print(grid)
 # indices = get_indices(grid)
 # routes = get_routes(indices)
 #
