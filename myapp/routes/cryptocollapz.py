@@ -33,14 +33,16 @@ def cryptocollapztest():
 def calc_max(x : int):
     mx = max(x, 4)
     buf = []
+    count = 0
     while(True):
-        if(x in buf[:-2]): break
+        if(x in buf[:-2] or count == 1000): break
         if(x % 2 == 0):
             x /= 2
         else:
             x = x * 3 + 1
         mx = max(mx, x)
         buf.append(x)
+        count += 1
     return int(mx)
          
 
