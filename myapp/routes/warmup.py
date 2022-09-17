@@ -12,10 +12,10 @@ logger = logging.getLogger(__name__)
 @app.route('/stig/warmup', methods=['POST'])
 def warmup():
     data = request.get_json()
-    questions = data.get("questions")
+    questions = data[0].get("questions")
     lower = questions["lower"]
     higher = questions["higher"]
-    max = data.get("maxRating")
+    max = data[0].get("maxRating")
     right = 0
     for i in range(1,max+1):
         if lower <= i and i <= higher:
