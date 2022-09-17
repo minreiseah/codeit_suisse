@@ -16,7 +16,7 @@ def rubiks():
     cube = Cube(state)
     ops = process_ops(ops)
 
-    for op in process_ops("UiD"):
+    for op in process_ops(ops):
         cube.step(op)
 
     result = cube.get_cube()
