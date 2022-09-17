@@ -16,24 +16,19 @@ def warmup():
     output = []
     for interview in data:
         max = interview["maxRating"]
-        guessable = 0
-        add_one = False
+        guessable = []
         for rating in range(1,max+1):
-            floor = max
-            unasked = True
+            fingerprint = np.array([])
             for pair in interview["questions"]:
-                if pair["lower"] <= rating and rating <= pair["upper"] and pair["lower"] < floor:
-                    floor = pair["lower"]
-                    unasked = False
-            if rating == floor:
-                guessable += 1
-            if unasked == True:
-                add_one = True
-        if add_one == True:
-            guessable += 1
-        gcd = np.gcd(guessable, max)
+                if pair["lower"] <= rating and rating <= pair["upper"]:
+                    fingerprint = np.append(fingerprint, 1)
+                else:
+                    fingerprint = np.append(fingerprint, 0)
+            if fingerprint not in guessable:
+                guessable.append(fingerprint)
+        gcd = np.gcd(len(guessable), max)
         result = {}
-        result["p"] = int(guessable / gcd)
+        result["p"] = int(len(guessable) / gcd)
         result["q"] = int(max / gcd)
         output.append(result)
     return json.dumps(output)
