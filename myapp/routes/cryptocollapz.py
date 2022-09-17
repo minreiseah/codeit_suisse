@@ -9,9 +9,8 @@ logger = logging.getLogger(__name__)
 @app.route('/cryptocollapz', methods=['POST'])
 def cryptocollapz():
     data = request.get_json()
-    stream = data.get("input")
     result = []
-    for tc in stream:
+    for tc in data:
         buf = []
         for i in range(len(tc)):
             buf.append(calc_max(tc[i]))
