@@ -37,8 +37,8 @@ def part_one(input):
         elif thismonth == {5,6}:
             output = "weekend"
         else:
-            daynames="mtwtfss"
-            output="       "
+            daynames = "mtwtfss"
+            output = "       "
             for day in thismonth:
                 output = output[:day] + daynames[day] + output[day+1:]
         result.append(output)
@@ -64,11 +64,7 @@ def part_two(input):
             for x in range(5,7):
                 result.append((first.timetuple().tm_yday)+x)
         else:
-            counter = 0
-            for bool in input[(month-1)*8:month*8]:
-                if bool != " ":
-                    result.append((first.timetuple().tm_yday)+counter)
-                counter += 1
-
-
+            for i in range(7):
+                if input[(month-1)*8 + i] != " ":
+                    result.append((first.timetuple().tm_yday)+ i)
     return result
