@@ -16,9 +16,7 @@ def cryptocollapz():
         for i in tc:
             start = i
             max = i
-            counter = 0
-            while i != 1 and counter < 524:
-                counter += 1
+            while i != 1:
                 if i % 2 != 0:
                     i = i * 3 + 1
                     if i in memo.keys():
@@ -34,20 +32,26 @@ def cryptocollapz():
 
 @app.route('/cryptocollapztest', methods=['GET'])
 def cryptocollapztest():
-    stream = [[1,2,3,4], [1,2,3,4]]
+    data = [[1,2,3,4], [1,2,3,4]]
     result = []
-    for tc in stream:
-        tc_result = []
+    memo = {}
+    for tc in data:
+        tc_out = []
         for i in tc:
+            start = i
             max = i
             while i != 1:
                 if i % 2 != 0:
                     i = i * 3 + 1
+                    if i in memo.keys():
+                        max = memo[i]
+                        break
                     if i > max:
                         max = i
                 i /= 2
-            tc_result.append(max)
-        result.append(tc_result) 
+            memo[start] = max
+            tc_out.append(max)
+        result.append(tc_out)
     return jsonify(result)
 
 def calc_max(x : int):
