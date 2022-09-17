@@ -6,3 +6,4 @@ import myapp.routes.tickerstream
 import myapp.routes.cryptocollapz
 import myapp.routes.rubiks
 import myapp.routes.calendarDays
+import myapp.routes.travelling
