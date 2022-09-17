@@ -21,7 +21,7 @@ def warmup():
         unasked = True
         for pair in interview["questions"]:
             if pair["lower"] <= rating and rating <= pair["upper"] and pair["lower"] < floor:
-                floor = lower[pair]
+                floor = pair["lower"]
                 unasked = False
         if rating == floor:
             guessable += 1
