@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 
 @app.route('/stig/warmup', methods=['POST'])
 def warmup():
-    data = request.get_json()
+    data = request.get_json()[0]
     questions = data.get("questions")
     lower = questions[0]["lower"]
     higher = questions[0]["higher"]
@@ -27,8 +27,8 @@ def warmup():
         if guess == i:
             right += 1
 
-    gcd = gcd(right, max)
+    # gcd = gcd(right, max)
     result = {}
-    result["p"] = int(right / gcd)
-    result["q"] = int(max / gcd)
+    # result["p"] = int(right / gcd)
+    # result["q"] = int(max / gcd)
     return json.dumps(result)
