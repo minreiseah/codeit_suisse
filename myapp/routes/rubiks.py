@@ -7,19 +7,24 @@ import numpy as np
 
 from myapp import app
 
+logger = logging.getLogger(__name__)
+
 @app.route('/rubiks', methods=['POST'])
 def rubiks():
     data = request.get_json()
     ops = data.get("ops")
     state = data.get("state")
+    logger.info(state)
 
     cube = Cube(state)
     ops = process_ops(ops)
+    logger.info(ops)
 
     for op in process_ops(ops):
         cube.step(op)
 
     result = cube.get_cube()
+    logger.info(result)
 
     return result
 
@@ -80,8 +85,8 @@ class Cube:
         if(clockwise):
             self.left = rotate_clockwise(self.left)
             tmp = self.up[:,0].copy()
-            self.up[:, 0] = self.back[:, 2]
-            self.back[:, 2] = self.down[:,0]
+            self.up[:, 0] = np.flip(self.back[:, 2])
+            self.back[:, 2] = np.flip(self.down[:,0])
             self.down[:, 0] = self.front[:, 0]
             self.front[:, 0] = tmp
         else:
@@ -89,22 +94,22 @@ class Cube:
             tmp = self.up[:, 0].copy()
             self.up[:, 0] = self.front[:, 0]
             self.front[:, 0] = self.down[:, 0]
-            self.down[:, 0] = self.back[:, 2]
-            self.back[:, 2] = tmp
+            self.down[:, 0] = np.flip(self.back[:, 2])
+            self.back[:, 2] = np.flip(tmp)
 
     def rotate_right(self, clockwise = True):
         if(clockwise):
             self.right = rotate_clockwise(self.right)
             tmp = self.up[:, 2].copy()
-            self.up[:, 2] = self.front[:, 2]
+            self.up[:, 2] = np.flip(self.front[:, 2])
             self.front[:, 2] = self.down[:, 2]
-            self.down[:, 2] = self.back[:, 0]
+            self.down[:, 2] = np.flip(self.back[:, 0])
             self.back[:, 0] = tmp
         else:
             self.right = rotate_anticlockwise(self.right)
             tmp = self.up[:,2].copy()
-            self.up[:, 2] = self.back[:, 0]
-            self.back[:, 0] = self.down[:,2]
+            self.up[:, 2] = np.flip(self.back[:, 0])
+            self.back[:, 0] = np.flip(self.down[:,2])
             self.down[:, 2] = self.front[:, 2]
             self.front[:, 2] = tmp
 
@@ -113,32 +118,32 @@ class Cube:
         if(clockwise):
             self.front = rotate_clockwise(self.front)
             tmp = self.up[2, :].copy()
-            self.up[2, :] = self.left[:, 2]
+            self.up[2, :] = np.flip(self.left[:, 2])
             self.left[:, 2] = self.down[0, :]
-            self.down[0, :] = self.right[:, 0]
+            self.down[0, :] = np.flip(self.right[:, 0])
             self.right[:, 0] = tmp
         else:
             self.front = rotate_anticlockwise(self.front)
             tmp = self.up[2, :].copy()
-            self.up[2, :] = self.right[:, 0]
+            self.up[2, :] = np.flip(self.right[:, 0])
             self.right[:, 0] = self.down[0, :]
-            self.down[0, :] = self.left[:, 2]
+            self.down[0, :] = np.flip(self.left[:, 2])
             self.left[:, 2] = tmp
 
     def rotate_back(self, clockwise = True):
         if(clockwise):
             self.back = rotate_clockwise(self.back)
             tmp = self.up[0, :].copy()
-            self.up[0, :] = self.right[:, 2]
+            self.up[0, :] = np.flip(self.right[:, 2])
             self.right[:, 2] = self.down[2, :]
-            self.down[2, :] = self.left[:, 0]
+            self.down[2, :] = np.flip(self.left[:, 0])
             self.left[:, 0] = tmp
         else:
             self.back = rotate_anticlockwise(self.back)
             tmp = self.up[0, :].copy()
-            self.up[0, :] = self.left[:, 0]
+            self.up[0, :] = np.flip(self.left[:, 0])
             self.left[:, 0] = self.down[2, :]
-            self.down[2, :] = self.right[:, 2]
+            self.down[2, :] = np.flip(self.right[:, 2])
             self.right[:, 2] = tmp
     
     def step(self, op):
@@ -195,3 +200,9 @@ def process_ops(s):
 #     for v in output[k]:
 #         print(v)
 
+# "u": [["w1", "w2", "w3"], ["w4", "w5", "w6"], ["w7", "w8", "w9"]],
+# "l": [["p1", "p2", "p3"], ["p4", "p5", "p6"], ["p7", "p8", "p9"]],
+# "f": [["b1", "b2", "b3"], ["b4", "b5", "b6"], ["b7", "b8", "b9"]],
+# "r": [["o1", "o2", "o3"], ["o4", "o5", "o6"], ["o7", "o8", "o9"]],
+# "b": [["g1", "g2", "g3"], ["g4", "g5", "g6"], ["g7", "g8", "g9"]],
+# "d": [["y1", "y2", "y3"], ["y4", "y5", "y6"], ["y7", "y8", "y9"]]
