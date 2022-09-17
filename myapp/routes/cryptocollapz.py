@@ -10,20 +10,24 @@ logger = logging.getLogger(__name__)
 def cryptocollapz():
     data = request.get_json()
     result = []
-    maxes = set()
+    memo = {}
     for tc in data:
         tc_result = []
         for i in tc:
+            start = i
             max = i
-            while i != 1:
+            counter = 0
+            while i != 1 or counter > 100:
+                counter += 1
+                if i in memo:
+                    max = memo[i]
+                    break
                 if i % 2 != 0:
                     i = i * 3 + 1
                     if i > max:
                         max = i
-                    if i in maxes:
-                        break
                 i /= 2
-            maxes.add(max)
+            memo[start] = max
             tc_result.append(max)
         result.append(tc_result)
     return jsonify(result)
