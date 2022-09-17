@@ -8,6 +8,7 @@ from myapp import app
 logger = logging.getLogger(__name__)
 
 memo = [0] * 1000000
+memo[1] = 4
 
 @app.route('/cryptocollapz', methods=['POST'])
 def cryptocollapz():
@@ -16,12 +17,12 @@ def cryptocollapz():
     for xs in data:
         buf = []
         for x in xs:
-            if x in memo:
+            if(memo[x] != 0):
                 buf.append(memo[x])
             else:
-                y = int(calc_max(x))
-                memo[x] = y
-                buf.append(y)
+                mx = calc_max(x)
+                memo[x] = mx
+                buf.append(mx)
         result.append(buf)
     return jsonify(result)
 
@@ -50,42 +51,31 @@ def cryptocollapztest():
     return jsonify(result)
 
 
-def calc_max(x : int):
-    n = math.log2(x)
-    if(n == int(n)):
-        return x
+def calc_max(x: int):
+    original = x
+    mx = x
+    while (True):
+        if x % 2:
+            x = int(x * 3 + 1)
+            mx = max(mx, x)
+        else:
+            x = int(x / 2)
+            if (x < original):
+                return max(mx, memo[x])
 
-    if(memo[x] != 0):
-        return memo[x]
 
-    if(x % 2 == 0): #even
-        x = int (x/2)
-    else:
-        x = int (3 * x + 1)
-
-    return max(x, calc_max(x))
-
-# def calc_max(x : int):
-#     mx = max(x, 4)
-#     buf = [x]
-#     n = math.log2(x)
-#     if(n == int(n)):
-#         return x
+# data = [[1, 2, 3, 4, 5], [6, 7, 8, 9, 10]]
 #
-#     r = x - int(n) # x = 2^n + r
-#     return r
-#
-#
-#     while(True):
-#         if(x == 1):
-#             break
-#         if(x % 2 == 0):
-#             x /= 2
+# result = []
+# for xs in data:
+#     buf = []
+#     for x in xs:
+#         if (memo[x] != 0):
+#             buf.append(memo[x])
 #         else:
-#             x = x * 3 + 1
-#         mx = max(mx, x)
-#         buf.append(x)
-#         count += 1
-#     return int(mx)
-#          
+#             mx = calc_max(x)
+#             memo[x] = mx
+#             buf.append(mx)
+#     result.append(buf)
 #
+# print(calc_max(7))
