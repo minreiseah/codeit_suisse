@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 
 @app.route('/travelling-suisse-robot', methods=['POST'])
 def travelling():
-    data = request.get_data(as_text=True)
+    data = request.get_data()
     logging.info("data given: {}".format(data))
     grid = make_grid(data)
     indices = get_indices(grid)
