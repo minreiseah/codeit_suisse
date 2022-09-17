@@ -11,6 +11,7 @@ logger = logging.getLogger(__name__)
 @app.route('/travelling-suisse-robot', methods=['POST'])
 def travelling():
     data = request.get_data()
+    logging.info(data)
     grid = make_grid(data)
     indices = get_indices(grid)
     routes = get_routes(indices)
@@ -27,6 +28,7 @@ def travelling():
     best_path = routes[mn_idx]['path']
     logging.info(len(best_path))
     logging.info(best_path)
+    logging.info(indices)
 
     return best_path
 
@@ -37,16 +39,16 @@ def travelling():
 
 def make_grid(data):
     str = data.decode()[:-1].split('\n')
-    output = []
-    for s in str:
-        buf = []
-        for i in range(len(s)):
-            if(s[i] == '\x00'):
-                buf += '0'
-            else:
-                buf += s[i]
-        output.append(buf)
-    return output
+    # output = []
+    # for s in str:
+    #     buf = []
+    #     for i in range(len(s)):
+    #         if(s[i] == '\x00'):
+    #             buf += '0'
+    #         else:
+    #             buf += s[i]
+    #     output.append(buf)
+    return str
 
 def get_indices(grid):
     indices = defaultdict(lambda: [])
