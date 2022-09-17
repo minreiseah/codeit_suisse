@@ -11,8 +11,9 @@ logger = logging.getLogger(__name__)
 @app.route('/travelling-suisse-robot', methods=['POST'])
 def travelling():
     data = request.get_data()
-    logging.info(data)
+    logging.info("data given: {}".format(data))
     grid = make_grid(data)
+    logging.info("grid: {}".format(grid))
     indices = get_indices(grid)
     routes = get_routes(indices)
 
@@ -26,9 +27,9 @@ def travelling():
             mn_idx = i
 
     best_path = routes[mn_idx]['path']
-    logging.info(len(best_path))
-    logging.info(best_path)
-    logging.info(indices)
+    # logging.info("length: {}". format(len(best_path)))
+    # logging.info("path: {}".format(best_path))
+    # logging.info("indices: {}".format(indices))
 
     return best_path
 
@@ -36,19 +37,28 @@ def travelling():
 
 # data = b'I\x00\x00\x00\x00\x00\x00\x00\x00\x00\n\x00\x00O\x00\x00\x00\x00T\x00\x00\n\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\n\x00\x00\x00\x00D\x00\x00\x00X\x00\n\x00E\x00\x00\x00\x00\x00\x00I\x00\n\x00\x00\x00\x00\x00\x00\x00\x00EC\n\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\n\x00\x00U\x00S\x00\x00\x00\x00\x00\n\x00\x00\x00\x00\x00\x00\x00\x00\x00S\nS\x00\x00\x00\x00\x00\x00\x00\x00\x00\n'
 
+# data = '\n\nIEXD\x00\x00CTUSIEOSS\n'
+
+
+# def make_grid(data):
+#     suss = [x for x in data.split('\n') if x != '']
+#     output = []
+#     for s in suss:
+#         output.append(s.replace('\x00', '0'))
+#     return output
 
 def make_grid(data):
     str = data.decode()[:-1].split('\n')
-    # output = []
-    # for s in str:
-    #     buf = []
-    #     for i in range(len(s)):
-    #         if(s[i] == '\x00'):
-    #             buf += '0'
-    #         else:
-    #             buf += s[i]
-    #     output.append(buf)
-    return str
+    output = []
+    for s in str:
+        buf = []
+        for i in range(len(s)):
+            if(s[i] == '\x00'):
+                buf += '0'
+            else:
+                buf += s[i]
+        output.append(buf)
+    return output
 
 def get_indices(grid):
     indices = defaultdict(lambda: [])
@@ -132,20 +142,23 @@ def get_distance(v1, v2, pos):
             'path': str}
 
 
+
+# # logging.info(data)
 # grid = make_grid(data)
-# for row in grid:
-#     print(row)
+# print(grid)
 # indices = get_indices(grid)
-# # print(indices)
 # routes = get_routes(indices)
-# mx = 0
-# mx_idx = 0
+#
+# # get best path
+# mn = 1e9
+# mn_idx = 0
 # for i in range(len(routes)):
 #     d = routes[i]['d']
-#     if(d > mx):
-#         mx = d
-#         mx_idx = i
+#     if(d < mn):
+#         mn = d
+#         mn_idx = i
 #
-# print(routes[mx_idx]['path'])
-
-
+# best_path = routes[mn_idx]['path']
+#
+# print(grid)
+# print(mn)
