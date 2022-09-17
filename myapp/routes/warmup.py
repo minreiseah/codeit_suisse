@@ -12,6 +12,7 @@ logger = logging.getLogger(__name__)
 @app.route('/stig/warmup', methods=['POST'])
 def warmup():
     data = request.get_json()
+    logging.info(data)
     questions = data[0].get("questions")
     lower = int(questions[0][0])
     higher = int(questions[0][1])
