@@ -8,3 +8,4 @@ import myapp.routes.rubiks
 import myapp.routes.calendarDays
 import myapp.routes.travelling
 import myapp.routes.warmup
+import myapp.routes.cauldrons
