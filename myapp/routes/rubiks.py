@@ -7,6 +7,8 @@ import numpy as np
 
 from myapp import app
 
+logger = logging.getLogger(__name__)
+
 @app.route('/rubiks', methods=['POST'])
 def rubiks():
     data = request.get_json()
@@ -15,6 +17,7 @@ def rubiks():
 
     cube = Cube(state)
     ops = process_ops(ops)
+    logger.info(ops)
 
     for op in process_ops(ops):
         cube.step(op)
@@ -144,6 +147,8 @@ class Cube:
     def step(self, op):
         is_clockwise = len(op) == 1
         s = op[0]
+        logger.info(s)
+        logger.info(is_clockwise)
         if s == 'U':
             self.rotate_up(is_clockwise)
         elif s == 'L':
@@ -195,9 +200,9 @@ def process_ops(s):
 #     for v in output[k]:
 #         print(v)
 
-# "u": [["w", "w", "w"], ["w", "w", "w"], ["w", "w", "w"]],
-# "l": [["p", "p", "p"], ["p", "p", "p"], ["p", "p", "p"]],
-# "f": [["b", "b", "b"], ["b", "b", "b"], ["b", "b", "b"]],
-# "r": [["o", "o", "o"], ["o", "o", "o"], ["o", "o", "o"]],
-# "b": [["g", "g", "g"], ["g", "g", "g"], ["g", "g", "g"]],
-# "d": [["y", "y", "y"], ["y", "y", "y"], ["y", "y", "y"]]
+# "u": [["w1", "w2", "w3"], ["w4", "w5", "w6"], ["w7", "w8", "w9"]],
+# "l": [["p1", "p2", "p3"], ["p4", "p5", "p6"], ["p7", "p8", "p9"]],
+# "f": [["b1", "b2", "b3"], ["b4", "b5", "b6"], ["b7", "b8", "b9"]],
+# "r": [["o1", "o2", "o3"], ["o4", "o5", "o6"], ["o7", "o8", "o9"]],
+# "b": [["g1", "g2", "g3"], ["g4", "g5", "g6"], ["g7", "g8", "g9"]],
+# "d": [["y1", "y2", "y3"], ["y4", "y5", "y6"], ["y7", "y8", "y9"]]
