@@ -15,21 +15,31 @@ def stig_full():
     # logging.info(data)
     output = []
     for interview in data:
-        max = interview["maxRating"]
+        maxRating = interview["maxRating"]
         lucky = interview["lucky"]
-        guessable = []
-        for rating in range(1,max+1):
-            fingerprint = []
-            for pair in interview["questions"]:
-                if pair["lower"] <= rating and rating <= pair["upper"]:
-                    fingerprint.append(1)
-                else:
-                    fingerprint.append(0)
-            if fingerprint not in guessable:
-                guessable.append(fingerprint)
-        gcd = np.gcd(len(guessable), max)
-        result = {}
-        result["p"] = int(len(guessable) / gcd)
-        result["q"] = int(max / gcd)
-        output.append(result)
-    return json.dumps(output)
+        p = 1
+        decrypted = []
+        for pair in interview["questions"]:
+            interval = [(pair["upper"] + p*lucky - 1) % maxRating + 1, (pair["lower"] + p*lucky - 1) % maxRating + 1]
+            decrypted.append({"lower": min(interval), "upper": max(interval)})
+            # logging.info(decrypted)
+            guessable = stig_checkhere(maxRating, decrypted)
+            gcd = np.gcd(guessable, maxRating)
+            p = int(guessable / gcd)
+        q = int(maxRating / gcd)
+        output.append({"p": p, "q": q})
+    return jsonify(output)
+
+def stig_checkhere(maxRating, questions):
+    guessable = []
+    for rating in range(1,maxRating+1):
+        fingerprint = []
+        for pair in questions:
+            if pair["lower"] <= rating and rating <= pair["upper"]:
+                fingerprint.append(1)
+            else:
+                fingerprint.append(0)
+        if fingerprint not in guessable:
+            guessable.append(fingerprint)
+    return len(guessable)
+
