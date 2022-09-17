@@ -3,7 +3,6 @@ import math
 
 memo = [0] * 1000000
 memo[1] = 4
-memo[2] = 2
 
 def calc_max(x : int):
     original = x
