@@ -14,20 +14,20 @@ def stig_full():
     data = request.get_json()
     # logging.info(data)
     output = []
-    for interview in data:
-        maxRating = interview["maxRating"]
-        lucky = interview["lucky"]
-        p = 1
-        decrypted = []
-        for pair in interview["questions"]:
-            interval = [(pair["upper"] + p*lucky - 1) % maxRating + 1, (pair["lower"] + p*lucky - 1) % maxRating + 1]
-            decrypted.append({"lower": min(interval), "upper": max(interval)})
-            # logging.info(decrypted)
-            guessable = stig_checkhere(maxRating, decrypted)
-            gcd = np.gcd(guessable, maxRating)
-            p = int(guessable / gcd)
-        q = int(maxRating / gcd)
-        output.append({"p": p, "q": q})
+    data[0] = interview
+    maxRating = interview["maxRating"]
+    lucky = interview["lucky"]
+    p = 1
+    decrypted = []
+    for pair in interview["questions"]:
+        interval = [(pair["upper"] + p*lucky - 1) % maxRating + 1, (pair["lower"] + p*lucky - 1) % maxRating + 1]
+        decrypted.append({"lower": min(interval), "upper": max(interval)})
+        # logging.info(decrypted)
+        guessable = stig_checkhere(maxRating, decrypted)
+        gcd = np.gcd(guessable, maxRating)
+        p = int(guessable / gcd)
+    q = int(maxRating / gcd)
+    output.append({"p": p, "q": q})
     return jsonify(output)
 
 def stig_checkhere(maxRating, questions):
