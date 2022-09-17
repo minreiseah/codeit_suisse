@@ -14,6 +14,7 @@ memo[1] = 4
 def cryptocollapz():
     data = request.get_json()
     result = []
+    logging.info(data)
     for xs in data:
         buf = []
         for x in xs:
