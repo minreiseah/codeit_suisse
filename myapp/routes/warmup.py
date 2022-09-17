@@ -12,7 +12,7 @@ logger = logging.getLogger(__name__)
 @app.route('/stig/warmup', methods=['POST'])
 def warmup():
     data = request.get_json()
-    logging.info(data)
+    # logging.info(data)
     interview = data[0]
     max = interview["maxRating"]
     guessable = 0
@@ -21,7 +21,7 @@ def warmup():
         floor = max
         unasked = True
         for pair in interview["questions"]:
-            if pair["lower"] <= rating and rating <= pair["higher"] and pair["lower"] < floor:
+            if pair["lower"] <= rating and rating <= pair["upper"] and pair["lower"] < floor:
                 floor = pair["lower"]
                 unasked = False
         if rating == floor:
