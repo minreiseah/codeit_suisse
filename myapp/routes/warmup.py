@@ -13,8 +13,8 @@ logger = logging.getLogger(__name__)
 def warmup():
     data = request.get_json()
     questions = data[0].get("questions")
-    lower = questions["lower"]
-    higher = questions["higher"]
+    lower = questions[0].get("lower")
+    higher = questions[0].get("higher")
     max = data[0].get("maxRating")
     right = 0
     for i in range(1,max+1):
