@@ -1,22 +1,35 @@
-
+import logging
 import json
 
 from flask import request, jsonify
-from collections import defaultdict
 from myapp import app
+
+logger = logging.getLogger(__name__)
 
 @app.route('/cryptocollapz', methods=['POST'])
 def cryptocollapz():
     data = request.get_json()
-    stream = data
-    const result = []
+    stream = data.get("input")
+    result = []
     for tc in stream:
         buf = []
-        for(i in range(len(tc))):
+        for i in range(len(tc)):
             buf.append(calc_max(tc[i]))
         result.append(buf) 
 
-    return result
+    return jsonify(result)
+
+@app.route('/cryptocollapztest', methods=['GET'])
+def cryptocollapztest():
+    stream = [[1,2,3,4], [1,2,3,4]]
+    result = []
+    for tc in stream:
+        buf = []
+        for i in range(len(tc)):
+            buf.append(calc_max(tc[i]))
+        result.append(buf) 
+
+    return jsonify(result)
 
 def calc_max(x : int):
     mx = x

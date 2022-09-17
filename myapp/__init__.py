@@ -3,3 +3,4 @@ app = Flask(__name__)
 
 import myapp.routes.square
 import myapp.routes.tickerstream
+import myapp.routes.cryptocollapz
