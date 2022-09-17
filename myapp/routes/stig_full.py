@@ -22,7 +22,7 @@ def stig_full():
         for pair in interview["questions"]:
             interval = [(pair["upper"] + p*lucky - 1) % maxRating + 1, (pair["lower"] + p*lucky - 1) % maxRating + 1]
             decrypted.append({"lower": min(interval), "upper": max(interval)})
-            logging.info(decrypted)
+            # logging.info(decrypted)
             guessable = stig_checkhere(maxRating, decrypted)
             gcd = np.gcd(guessable, maxRating)
             p = int(guessable / gcd)
