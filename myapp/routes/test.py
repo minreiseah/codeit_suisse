@@ -1,19 +1,22 @@
 import datetime as dt
 import math
 
-memo = {}
+memo = [0] * 1000000
 
 def calc_max(x : int):
     n = math.log2(x)
     if(n == int(n)):
         return x
 
+    if(memo[x] != 0):
+        return memo[x]
+
     if(x % 2 == 0): #even
-        x /= 2
-        return max(x, calc_max(x))
+        x = int (x/2)
     else:
-        x = 3 * x + 1
-        return max(x, calc_max(x))
+        x = int (3 * x + 1)
+
+    return max(x, calc_max(x))
 
 
 my_list = [1,2,3,4,5,6,7,8,9,10]
@@ -26,3 +29,4 @@ for x in my_list:
         memo[x] = y
         print(y)
     
+print(memo[:10])

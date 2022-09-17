@@ -7,11 +7,12 @@ from myapp import app
 
 logger = logging.getLogger(__name__)
 
+memo = [0] * 1000000
+
 @app.route('/cryptocollapz', methods=['POST'])
 def cryptocollapz():
     data = request.get_json()
     result = []
-    memo = {}
     for xs in data:
         buf = []
         for x in xs:
@@ -54,12 +55,15 @@ def calc_max(x : int):
     if(n == int(n)):
         return x
 
+    if(memo[x] != 0):
+        return memo[x]
+
     if(x % 2 == 0): #even
-        x /= 2
-        return max(x, calc_max(x))
+        x = int (x/2)
     else:
-        x = 3 * x + 1
-        return max(x, calc_max(x))
+        x = int (3 * x + 1)
+
+    return max(x, calc_max(x))
 
 # def calc_max(x : int):
 #     mx = max(x, 4)
