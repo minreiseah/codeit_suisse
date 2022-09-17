@@ -35,7 +35,7 @@ def calc_max(x : int):
     buf = []
     count = 0
     while(True):
-        if(x in buf[:-2] or count == 1000): break
+        if(x in buf[:-2] or count == 10): break
         if(x % 2 == 0):
             x /= 2
         else:
