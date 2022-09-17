@@ -14,17 +14,13 @@ def warmup():
     data = request.get_json()
     interview = data[0]
     max = interview["maxRating"]
-    lower = np.array([])
-    upper = np.array([])
-    for pair in interview["questions"]:
-        lower = np.append(lower, pair["lower"])
-        upper = np.append(upper, pair["upper"])
     guessable = 0
+    add_one = False
     for rating in range(1,max+1):
         floor = max
         unasked = True
-        for pair in range(lower.size):
-            if lower[pair] <= rating and rating <= upper[pair] and lower[pair] < floor:
+        for pair in interview["questions"]:
+            if pair["lower"] <= rating and rating <= pair["upper"] and pair["lower"] < floor:
                 floor = lower[pair]
                 unasked = False
         if rating == floor:
