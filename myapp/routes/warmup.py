@@ -20,7 +20,7 @@ def warmup():
         floor = max
         unasked = True
         for pair in interview["questions"]:
-            if pair["lower"] <= rating and rating <= pair["upper"] and pair["lower"] < floor:
+            if pair["lower"] <= rating and rating <= pair["higher"] and pair["lower"] < floor:
                 floor = pair["lower"]
                 unasked = False
         if rating == floor:
@@ -33,4 +33,4 @@ def warmup():
     result = {}
     result["p"] = int(guessable / gcd)
     result["q"] = int(max / gcd)
-    return [json.dumps(result)]
+    return json.dumps(result)
