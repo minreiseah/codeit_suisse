@@ -14,6 +14,7 @@ def rubiks():
     data = request.get_json()
     ops = data.get("ops")
     state = data.get("state")
+    logger.info(state)
 
     cube = Cube(state)
     ops = process_ops(ops)
@@ -23,6 +24,7 @@ def rubiks():
         cube.step(op)
 
     result = cube.get_cube()
+    logger.info(result)
 
     return result
 
@@ -147,8 +149,6 @@ class Cube:
     def step(self, op):
         is_clockwise = len(op) == 1
         s = op[0]
-        logger.info(s)
-        logger.info(is_clockwise)
         if s == 'U':
             self.rotate_up(is_clockwise)
         elif s == 'L':
