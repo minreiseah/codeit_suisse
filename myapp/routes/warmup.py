@@ -20,7 +20,7 @@ def warmup():
         for rating in range(1,max+1):
             fingerprint = np.array([])
             for pair in interview["questions"]:
-                if pair["lower"] <= rating and rating <= pair["upper"] and pair["lower"] < floor:
+                if pair["lower"] <= rating and rating <= pair["upper"]:
                     fingerprint = np.append(fingerprint, 1)
                 else:
                     fingerprint = np.append(fingerprint, 0)
