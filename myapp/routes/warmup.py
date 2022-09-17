@@ -18,12 +18,12 @@ def warmup():
         max = interview["maxRating"]
         guessable = []
         for rating in range(1,max+1):
-            fingerprint = np.array([])
+            fingerprint = []
             for pair in interview["questions"]:
                 if pair["lower"] <= rating and rating <= pair["upper"]:
-                    fingerprint = np.append(fingerprint, 1)
+                    fingerprint.append(1)
                 else:
-                    fingerprint = np.append(fingerprint, 0)
+                    fingerprint.append(0)
             if fingerprint not in guessable:
                 guessable.append(fingerprint)
         gcd = np.gcd(len(guessable), max)
