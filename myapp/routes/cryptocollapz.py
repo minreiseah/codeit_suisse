@@ -9,6 +9,7 @@ logger = logging.getLogger(__name__)
 
 memo = [0] * 10000000
 memo[1] = 4
+memo[2] = 2
 
 @app.route('/cryptocollapz', methods=['POST'])
 def cryptocollapz():
