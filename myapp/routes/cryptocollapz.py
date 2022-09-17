@@ -10,6 +10,7 @@ logger = logging.getLogger(__name__)
 def cryptocollapz():
     data = request.get_json()
     result = []
+    maxes = set()
     for tc in data:
         tc_result = []
         for i in tc:
@@ -19,9 +20,12 @@ def cryptocollapz():
                     i = i * 3 + 1
                     if i > max:
                         max = i
+                    if i in maxes:
+                        break
                 i /= 2
+            maxes.add(max)
             tc_result.append(max)
-        result.append(tc_result) 
+        result.append(tc_result)
     return jsonify(result)
 
 @app.route('/cryptocollapztest', methods=['GET'])
