@@ -2,7 +2,7 @@ import datetime as dt
 import math
 
 memo = [0] * 1000000
-memo[1] = 1
+memo[1] = 4
 
 def calc_max(x : int):
     original = x
@@ -20,11 +20,11 @@ def calc_max(x : int):
 my_list = [1,2,3,4,5,6,7,8,9,10]
 counter = 0
 
-for x in range(1,100):
+for x in range(1,1000000):
     if(memo[x] != 0):
         continue
     mx = calc_max(x)
     memo[x] = mx
 
-print(memo[7])
+print(memo[2])
     
