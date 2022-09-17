@@ -26,9 +26,9 @@ def part_one(input):
         if date in range(1,year_days+1):
             dt_date = dt.date(year, 1, 1) + dt.timedelta(date - 1)
             dt_dates.append(dt_date)
-    for months in range(1,13):
+    for month in range(1,13):
         thismonth = set()
-        for x in filter(lambda y: y.month==months, dt_dates):
+        for x in filter(lambda y: y.month==month, dt_dates):
             thismonth.add(x.weekday())
         if thismonth == {0,1,2,3,4,5,6}:
             output = "alldays"
@@ -49,4 +49,26 @@ def part_one(input):
 def part_two(input):
     newyear = 2001 + input.find(" ")
     result = [newyear]
+    for month in range(1,13):
+        indicator = input[(month-1)*8+5]
+        first = dt.date(newyear, month, 1)
+        while first.weekday() != 0:
+            first += dt.timedelta(1)
+        if indicator == "y":
+            for x in range(7):
+                result.append((first.timetuple().tm_yday)+x)
+        elif indicator == "a":
+            for x in range(5):
+                result.append((first.timetuple().tm_yday)+x)
+        elif indicator == "n":
+            for x in range(5,7):
+                result.append((first.timetuple().tm_yday)+x)
+        else:
+            counter = 0
+            for bool in input[(month-1)*8:month*8]:
+                if bool != " ":
+                    result.append((first.timetuple().tm_yday)+counter)
+                counter += 1
+
+
     return result
