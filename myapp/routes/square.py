@@ -8,7 +8,7 @@ from myapp import app
 logger = logging.getLogger(__name__)
 
 
-@app.route('/square', methods=['POST'])
+@app.route('/square/test', methods=['POST'])
 def evaluate():
     data = request.get_json()
     logging.info("Data sent for evaluation {}".format(data))
