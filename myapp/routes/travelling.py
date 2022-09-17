@@ -10,5 +10,6 @@ logger = logging.getLogger(__name__)
 @app.route('/travelling-suisse-robot', methods=['POST'])
 def travelling():
     data = request.get_data()
+    logging.info(data)
     return data
 
