@@ -14,8 +14,8 @@ def warmup():
     data = request.get_json()
     interview = data[0]
     max = interview["maxRating"]
-    lower = np.array()
-    upper = np.array()
+    lower = np.empty()
+    upper = np.empty()
     for pair in interview["questions"]:
         lower = np.append(lower, pair["lower"])
         upper = np.append(upper, pair["upper"])
