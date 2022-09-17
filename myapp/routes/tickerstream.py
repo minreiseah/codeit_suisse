@@ -8,7 +8,7 @@ from myapp import app
 def tickerstreampart1():
     data = request.get_json()
     stream = data.get("stream")
-    result = to_cumulative(stream)
+    result = {"output": to_cumulative(stream)}
     return json.dumps(result)
 
 def to_cumulative(stream: list):
@@ -59,8 +59,8 @@ def tickerstreampart2():
     data = request.get_json()
     stream = data.get("stream")
     quantity_block = data.get("quantityBlock")
-    result = to_cumulative_delayed(stream, quantity_block)
-    return json.dumps(result)
+    result = {"output" : to_cumulative_delayed(stream, quantity_block)}
+    return result
 
 def to_cumulative_delayed(stream: list, quantity_block: int):
     df = []
