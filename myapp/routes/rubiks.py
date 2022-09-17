@@ -136,8 +136,8 @@ class Cube:
             tmp = self.up[0, :].copy()
             self.up[0, :] = self.right[:, 2]
             self.right[:, 2] = np.flip(self.down[2, :])
-            self.down[2, :] = np.flip(self.left[:, 0])
-            self.left[:, 0] = tmp
+            self.down[2, :] = self.left[:, 0]
+            self.left[:, 0] = np.flip(tmp)
         else:
             self.back = rotate_anticlockwise(self.back)
             tmp = self.up[0, :].copy()
