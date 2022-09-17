@@ -17,7 +17,7 @@ def cryptocollapz():
             start = i
             max = i
             counter = 0
-            while i != 1 or counter > 100:
+            while i != 1 or counter > 500:
                 counter += 1
                 if i in memo:
                     max = memo[i]
