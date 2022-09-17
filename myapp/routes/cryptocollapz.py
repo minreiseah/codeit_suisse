@@ -32,7 +32,7 @@ def cryptocollapztest():
 
 def calc_max(x : int):
     mx = max(x, 4)
-    buf = []
+    buf = [x]
     count = 0
     while(True):
         if(x in buf[:-2] or count == 100): break
