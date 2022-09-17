@@ -31,7 +31,7 @@ def cryptocollapztest():
     return jsonify(result)
 
 def calc_max(x : int):
-    mx = x
+    mx = max(x, 4)
     while(True):
         if(x == 1): break
         if(x % 2 == 0):
