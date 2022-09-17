@@ -12,6 +12,7 @@ logger = logging.getLogger(__name__)
 @app.route('/stig/warmup', methods=['POST'])
 def warmup():
     data = request.get_json()
+    logging.info(data)
     interview = data[0]
     max = interview["maxRating"]
     guessable = 0
