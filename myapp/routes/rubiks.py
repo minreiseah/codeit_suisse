@@ -125,17 +125,17 @@ class Cube:
         else:
             self.front = rotate_anticlockwise(self.front)
             tmp = self.up[2, :].copy()
-            self.up[2, :] = np.flip(self.right[:, 0])
-            self.right[:, 0] = self.down[0, :]
-            self.down[0, :] = np.flip(self.left[:, 2])
-            self.left[:, 2] = tmp
+            self.up[2, :] = self.right[:, 0]
+            self.right[:, 0] = np.flip(self.down[0, :])
+            self.down[0, :] = self.left[:, 2]
+            self.left[:, 2] = np.flip(tmp)
 
     def rotate_back(self, clockwise = True):
         if(clockwise):
             self.back = rotate_clockwise(self.back)
             tmp = self.up[0, :].copy()
-            self.up[0, :] = np.flip(self.right[:, 2])
-            self.right[:, 2] = self.down[2, :]
+            self.up[0, :] = self.right[:, 2]
+            self.right[:, 2] = np.flip(self.down[2, :])
             self.down[2, :] = np.flip(self.left[:, 0])
             self.left[:, 0] = tmp
         else:
