@@ -79,11 +79,11 @@ class Cube:
     def rotate_left(self, clockwise = True):
         if(clockwise):
             self.left = rotate_clockwise(self.left)
-            tmp = self.down[:, 0].copy()
+            tmp = self.up[:,0].copy()
             self.up[:, 0] = self.back[:, 2]
-            self.front[:, 0] = self.up[:, 0]
+            self.back[:, 2] = self.down[:,0]
             self.down[:, 0] = self.front[:, 0]
-            self.back[:, 2] = tmp
+            self.front[:, 0] = tmp
         else:
             self.left = rotate_anticlockwise(self.left)
             tmp = self.up[:, 0].copy()
@@ -97,26 +97,26 @@ class Cube:
             self.right = rotate_clockwise(self.right)
             tmp = self.up[:, 2].copy()
             self.up[:, 2] = self.front[:, 2]
-            self.front[:, 2] = self.down[:, 0]
-            self.down[:, 2] = self.back[:, 2]
+            self.front[:, 2] = self.down[:, 2]
+            self.down[:, 2] = self.back[:, 0]
             self.back[:, 0] = tmp
         else:
             self.right = rotate_anticlockwise(self.right)
-            tmp = self.down[:, 2].copy()
+            tmp = self.up[:,2].copy()
             self.up[:, 2] = self.back[:, 0]
-            self.front[:, 2] = self.up[:, 2]
+            self.back[:, 0] = self.down[:,2]
             self.down[:, 2] = self.front[:, 2]
-            self.back[:, 0] = tmp
+            self.front[:, 2] = tmp
 
 
     def rotate_front(self, clockwise = True):
         if(clockwise):
             self.front = rotate_clockwise(self.front)
-            tmp = self.down[0, :].copy()
+            tmp = self.up[2, :].copy()
             self.up[2, :] = self.left[:, 2]
-            self.right[:, 0] = self.up[2, :]
+            self.left[:, 2] = self.down[0, :]
             self.down[0, :] = self.right[:, 0]
-            self.left[:, 2] = tmp
+            self.right[:, 0] = tmp
         else:
             self.front = rotate_anticlockwise(self.front)
             tmp = self.up[2, :].copy()
@@ -135,11 +135,11 @@ class Cube:
             self.left[:, 0] = tmp
         else:
             self.back = rotate_anticlockwise(self.back)
-            tmp = self.down[2, :].copy()
+            tmp = self.up[0, :].copy()
             self.up[0, :] = self.left[:, 0]
-            self.right[:, 2] = self.up[0, :]
+            self.left[:, 0] = self.down[2, :]
             self.down[2, :] = self.right[:, 2]
-            self.left[:, 0] = tmp
+            self.right[:, 2] = tmp
     
     def step(self, op):
         is_clockwise = len(op) == 1
