@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 @app.route('/travelling-suisse-robot', methods=['POST'])
 def travelling():
     data = request.get_data(as_text=True)
-    # logging.info(data)
+    logging.info("data given: {}".format(data))
     grid = make_grid(data)
     indices = get_indices(grid)
     routes = get_routes(indices)
@@ -26,10 +26,10 @@ def travelling():
             mn_idx = i
 
     best_path = routes[mn_idx]['path']
-    logging.info("length: {}". format(len(best_path)))
-    logging.info("path: {}".format(best_path))
-    logging.info("grid: {}".format(grid))
-    logging.info("indices: {}".format(indices))
+    # logging.info("length: {}". format(len(best_path)))
+    # logging.info("path: {}".format(best_path))
+    # logging.info("grid: {}".format(grid))
+    # logging.info("indices: {}".format(indices))
 
     return best_path
 
