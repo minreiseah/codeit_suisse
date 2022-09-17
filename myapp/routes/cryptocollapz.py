@@ -17,13 +17,13 @@ def cryptocollapz():
             start = i
             max = i
             counter = 0
-            while i != 1 or counter > 524:
+            while i != 1 and counter < 524:
                 counter += 1
-                if i in memo.keys():
-                    max = memo[i]
-                    break
                 if i % 2 != 0:
                     i = i * 3 + 1
+                    if i in memo.keys():
+                        max = memo[i]
+                        break
                     if i > max:
                         max = i
                 i /= 2
