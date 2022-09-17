@@ -53,7 +53,6 @@ def cryptocollapztest():
 
 
 def calc_max(x: int):
-    original = x
     mx = x
     while (True):
         if x % 2:
@@ -61,7 +60,7 @@ def calc_max(x: int):
             mx = max(mx, x)
         else:
             x = int(x / 2)
-            if (x < original):
+            if x in memo:
                 return max(mx, memo[x])
 
 
