@@ -14,7 +14,7 @@ def stig_full():
     data = request.get_json()
     # logging.info(data)
     output = []
-    data[0] = interview
+    interview = data[0]
     maxRating = interview["maxRating"]
     lucky = interview["lucky"]
     p = 1
