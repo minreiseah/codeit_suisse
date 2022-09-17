@@ -58,10 +58,9 @@ def calc_max(x: int):
         if x % 2:
             x = int(x * 3 + 1)
             mx = max(mx, x)
-        else:
-            x = int(x / 2)
-            if x in memo:
-                return max(mx, memo[x])
+        x = int(x / 2)
+        if memo[x] != 0:
+            return max(mx, memo[x])
 
 
 # data = [[1, 2, 3, 4, 5], [6, 7, 8, 9, 10]]
