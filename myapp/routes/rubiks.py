@@ -23,17 +23,6 @@ def rubiks():
 
     return result
 
-state = {
-    "u": [[0, 0, 0], [0, 0, 0], [0, 0, 0]],
-    # "u": [[1, 1, 1], [2, 2, 2], [3, 3, 3]],
-    "l": [[1, 1, 1], [1, 1, 1], [1, 1, 1]],
-    "f": [[2, 2, 2], [2, 2, 2], [2, 2, 2]],
-    "r": [[3, 3, 3], [3, 3, 3], [3, 3, 3]],
-    "b": [[4, 4, 4], [4, 4, 4], [4, 4, 4]],
-    "d": [[5, 5, 5], [5, 5, 5], [5, 5, 5]]
-}
-
-
 class Cube:
     def __init__(self, state):
         self.up = np.array(state["u"])
@@ -73,14 +62,14 @@ class Cube:
 
     def rotate_down(self, clockwise = True):
         if(clockwise):
-            self.up = rotate_clockwise(self.up)
+            self.down = rotate_clockwise(self.down)
             tmp = self.front[2,:].copy()
             self.front[2,:] = self.left[2,:]
             self.left[2,:] = self.back[2,:]
             self.back[2,:] = self.right[2,:]
             self.right[2,:] = tmp
         else:
-            self.up = rotate_anticlockwise(self.up)
+            self.down = rotate_anticlockwise(self.down)
             tmp = self.front[2,:].copy()
             self.front[2,:] = self.right[2,:]
             self.right[2,:] = self.back[2,:]
@@ -89,14 +78,14 @@ class Cube:
 
     def rotate_left(self, clockwise = True):
         if(clockwise):
-            self.up = rotate_clockwise(self.up)
+            self.left = rotate_clockwise(self.left)
             tmp = self.down[:, 0].copy()
             self.up[:, 0] = self.back[:, 2]
             self.front[:, 0] = self.up[:, 0]
             self.down[:, 0] = self.front[:, 0]
             self.back[:, 2] = tmp
         else:
-            self.up = rotate_anticlockwise(self.up)
+            self.left = rotate_anticlockwise(self.left)
             tmp = self.up[:, 0].copy()
             self.up[:, 0] = self.front[:, 0]
             self.front[:, 0] = self.down[:, 0]
@@ -105,14 +94,14 @@ class Cube:
 
     def rotate_right(self, clockwise = True):
         if(clockwise):
-            self.up = rotate_clockwise(self.up)
+            self.right = rotate_clockwise(self.right)
             tmp = self.up[:, 2].copy()
             self.up[:, 2] = self.front[:, 2]
             self.front[:, 2] = self.down[:, 0]
             self.down[:, 2] = self.back[:, 2]
             self.back[:, 0] = tmp
         else:
-            self.up = rotate_anticlockwise(self.up)
+            self.right = rotate_anticlockwise(self.right)
             tmp = self.down[:, 2].copy()
             self.up[:, 2] = self.back[:, 0]
             self.front[:, 2] = self.up[:, 2]
@@ -122,14 +111,14 @@ class Cube:
 
     def rotate_front(self, clockwise = True):
         if(clockwise):
-            self.up = rotate_clockwise(self.up)
+            self.front = rotate_clockwise(self.front)
             tmp = self.down[0, :].copy()
             self.up[2, :] = self.left[:, 2]
             self.right[:, 0] = self.up[2, :]
             self.down[0, :] = self.right[:, 0]
             self.left[:, 2] = tmp
         else:
-            self.up = rotate_anticlockwise(self.up)
+            self.front = rotate_anticlockwise(self.front)
             tmp = self.up[2, :].copy()
             self.up[2, :] = self.right[:, 0]
             self.right[:, 0] = self.down[0, :]
@@ -138,14 +127,14 @@ class Cube:
 
     def rotate_back(self, clockwise = True):
         if(clockwise):
-            self.up = rotate_clockwise(self.up)
+            self.back = rotate_clockwise(self.back)
             tmp = self.up[0, :].copy()
             self.up[0, :] = self.right[:, 2]
             self.right[:, 2] = self.down[2, :]
             self.down[2, :] = self.left[:, 0]
             self.left[:, 0] = tmp
         else:
-            self.up = rotate_anticlockwise(self.up)
+            self.back = rotate_anticlockwise(self.back)
             tmp = self.down[2, :].copy()
             self.up[0, :] = self.left[:, 0]
             self.right[:, 2] = self.up[0, :]
