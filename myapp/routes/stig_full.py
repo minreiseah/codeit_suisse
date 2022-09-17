@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 
 
 @app.route('/stig/full', methods=['POST'])
-def warmup():
+def stig_full():
     data = request.get_json()
     # logging.info(data)
     output = []

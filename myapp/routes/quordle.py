@@ -1,3 +1,9 @@
+import logging
+import json
+
+from flask import request, jsonify
+
+from myapp import app
 # test_answers = ["VVIDH", "MZLPS", "BPCYN", "XYGGM"]
 # test_attempts = ["JKGJB", "ZGRUJ", "XYGGM", "BPCYN", "MHXGE", "DZENT", "ZXWQW", "VVIDH", "MZLPS"]
 # test_numbers = [761, 720, 13, 750, 936, 237, 482, 609, 585, 706, 240, 23, 76, 61, 700, 711, 823, 406, 376, 455, 818, 482, 338, 572, 257]
@@ -44,7 +50,12 @@ def quordle(ans_list, attempt_list):
 
     return answer_string
 
-def quordle2(ans_list, attempt_list, number_list):
+@app.route('/quordleKeyboard', methods=['POST'])
+def quordle2():
+    data = request.get_json()
+    ans_list = data.get("answers")
+    attempt_list = data.get("attempts")
+    number_list = data.get("numbers")
     full_alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
     guessed_letters = sorted(letters_in_list(attempt_list))
     quordle1_ans = quordle(ans_list, attempt_list)
@@ -74,5 +85,5 @@ def quordle2(ans_list, attempt_list, number_list):
         letters.append(i)
     final_string = ''.join(i for i in letters)
     # put it together
-
-    return final_string
+    output = {"part1": quordle1_ans, "part2": final_string}
+    return jsonify(output)
