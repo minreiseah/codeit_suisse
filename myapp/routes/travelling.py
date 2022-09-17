@@ -11,14 +11,14 @@ logger = logging.getLogger(__name__)
 @app.route('/travelling-suisse-robot', methods=['POST'])
 def travelling():
     data = request.get_data()
-    logging.info("data given: {}".format(data))
+    # logging.info("data given: {}".format(data))
     grid = make_grid(data)
-    logging.info("grid: {}".format(grid))
+    # logging.info("grid: {}".format(grid))
     indices = get_indices(grid)
     routes = get_routes(indices)
 
     # get best path
-    mn = 1e9
+    mn = routes[0]['d']
     mn_idx = 0
     for i in range(len(routes)):
         d = routes[i]['d']
@@ -27,9 +27,9 @@ def travelling():
             mn_idx = i
 
     best_path = routes[mn_idx]['path']
-    # logging.info("length: {}". format(len(best_path)))
-    # logging.info("path: {}".format(best_path))
-    # logging.info("indices: {}".format(indices))
+    logging.info("length: {}". format(len(best_path)))
+    logging.info("path: {}".format(best_path))
+    logging.info("indices: {}".format(indices))
 
     return best_path
 
@@ -91,15 +91,20 @@ def get_routes(indices):
     for e_idx in range(2):
         for i_idx in range(2):
             for s_idx in range(3):
-                e0 = get_distance(indices['D'][0], indices['E'][e_idx], d['pos'])
-                i0 = get_distance(indices['E'][e_idx], indices['I'][i_idx], e0['pos'])
-                t = get_distance(indices['I'][i_idx], indices['T'][0], i0['pos'])
-                s0 = get_distance(indices['T'][0], indices['S'][s_idx], t['pos'])
-                u = get_distance(indices['S'][s_idx], indices['U'][0], s0['pos'])
-                i1 = get_distance(indices['U'][0], indices['I'][(i_idx + 1) % 2], u['pos'])
-                s1 = get_distance(indices['I'][0], indices['S'][(s_idx + 1) % 3], i1['pos'])
-                s2 = get_distance(indices['S'][(s_idx + 1) % 3], indices['S'][(s_idx + 2) % 3], s1['pos'])
-                e1 = get_distance(indices['S'][(s_idx + 2) % 3], indices['E'][(e_idx + 1) % 2], s2['pos'])
+                for s_idx_a in range(2):
+                    e0 = get_distance(indices['D'][0], indices['E'][e_idx], d['pos'])
+                    i0 = get_distance(indices['E'][e_idx], indices['I'][i_idx], e0['pos'])
+                    t = get_distance(indices['I'][i_idx], indices['T'][0], i0['pos'])
+                    s0 = get_distance(indices['T'][0], indices['S'][s_idx], t['pos'])
+                    u = get_distance(indices['S'][s_idx], indices['U'][0], s0['pos'])
+                    i1 = get_distance(indices['U'][0], indices['I'][(i_idx + 1) % 2], u['pos'])
+
+                    s_idx_1 = (s_idx + 1) % 3 if s_idx_a == 0 else (s_idx + 2) % 3
+                    s_idx_2 = (s_idx + 2) % 3 if s_idx_a == 0 else (s_idx + 1) % 3
+
+                    s1 = get_distance(indices['I'][0], indices['S'][s_idx_1], i1['pos'])
+                    s2 = get_distance(indices['S'][s_idx_1], indices['S'][s_idx_2], s1['pos'])
+                    e1 = get_distance(indices['S'][s_idx_2], indices['E'][(e_idx + 1) % 2], s2['pos'])
                 routes.append(update_route(route, [e0, i0, t, s0, u, i1, s1, s2, e1]))
 
     return routes
