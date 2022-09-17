@@ -42,7 +42,7 @@ def part_one(input):
             for day in thismonth:
                 output = output[:day] + daynames[day] + output[day+1:]
         result.append(output)
-        string = ",".join(result)
+        string = ",".join(result)+","
 
     return string
 
