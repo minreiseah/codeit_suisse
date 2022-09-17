@@ -80,8 +80,8 @@ class Cube:
         if(clockwise):
             self.left = rotate_clockwise(self.left)
             tmp = self.up[:,0].copy()
-            self.up[:, 0] = self.back[:, 2]
-            self.back[:, 2] = self.down[:,0]
+            self.up[:, 0] = np.flip(self.back[:, 2])
+            self.back[:, 2] = np.flip(self.down[:,0])
             self.down[:, 0] = self.front[:, 0]
             self.front[:, 0] = tmp
         else:
@@ -89,22 +89,22 @@ class Cube:
             tmp = self.up[:, 0].copy()
             self.up[:, 0] = self.front[:, 0]
             self.front[:, 0] = self.down[:, 0]
-            self.down[:, 0] = self.back[:, 2]
-            self.back[:, 2] = tmp
+            self.down[:, 0] = np.flip(self.back[:, 2])
+            self.back[:, 2] = np.flip(tmp)
 
     def rotate_right(self, clockwise = True):
         if(clockwise):
             self.right = rotate_clockwise(self.right)
             tmp = self.up[:, 2].copy()
-            self.up[:, 2] = self.front[:, 2]
+            self.up[:, 2] = np.flip(self.front[:, 2])
             self.front[:, 2] = self.down[:, 2]
-            self.down[:, 2] = self.back[:, 0]
+            self.down[:, 2] = np.flip(self.back[:, 0])
             self.back[:, 0] = tmp
         else:
             self.right = rotate_anticlockwise(self.right)
             tmp = self.up[:,2].copy()
-            self.up[:, 2] = self.back[:, 0]
-            self.back[:, 0] = self.down[:,2]
+            self.up[:, 2] = np.flip(self.back[:, 0])
+            self.back[:, 0] = np.flip(self.down[:,2])
             self.down[:, 2] = self.front[:, 2]
             self.front[:, 2] = tmp
 
@@ -113,32 +113,32 @@ class Cube:
         if(clockwise):
             self.front = rotate_clockwise(self.front)
             tmp = self.up[2, :].copy()
-            self.up[2, :] = self.left[:, 2]
+            self.up[2, :] = np.flip(self.left[:, 2])
             self.left[:, 2] = self.down[0, :]
-            self.down[0, :] = self.right[:, 0]
+            self.down[0, :] = np.flip(self.right[:, 0])
             self.right[:, 0] = tmp
         else:
             self.front = rotate_anticlockwise(self.front)
             tmp = self.up[2, :].copy()
-            self.up[2, :] = self.right[:, 0]
+            self.up[2, :] = np.flip(self.right[:, 0])
             self.right[:, 0] = self.down[0, :]
-            self.down[0, :] = self.left[:, 2]
+            self.down[0, :] = np.flip(self.left[:, 2])
             self.left[:, 2] = tmp
 
     def rotate_back(self, clockwise = True):
         if(clockwise):
             self.back = rotate_clockwise(self.back)
             tmp = self.up[0, :].copy()
-            self.up[0, :] = self.right[:, 2]
+            self.up[0, :] = np.flip(self.right[:, 2])
             self.right[:, 2] = self.down[2, :]
-            self.down[2, :] = self.left[:, 0]
+            self.down[2, :] = np.flip(self.left[:, 0])
             self.left[:, 0] = tmp
         else:
             self.back = rotate_anticlockwise(self.back)
             tmp = self.up[0, :].copy()
-            self.up[0, :] = self.left[:, 0]
+            self.up[0, :] = np.flip(self.left[:, 0])
             self.left[:, 0] = self.down[2, :]
-            self.down[2, :] = self.right[:, 2]
+            self.down[2, :] = np.flip(self.right[:, 2])
             self.right[:, 2] = tmp
     
     def step(self, op):
@@ -195,3 +195,9 @@ def process_ops(s):
 #     for v in output[k]:
 #         print(v)
 
+# "u": [["w", "w", "w"], ["w", "w", "w"], ["w", "w", "w"]],
+# "l": [["p", "p", "p"], ["p", "p", "p"], ["p", "p", "p"]],
+# "f": [["b", "b", "b"], ["b", "b", "b"], ["b", "b", "b"]],
+# "r": [["o", "o", "o"], ["o", "o", "o"], ["o", "o", "o"]],
+# "b": [["g", "g", "g"], ["g", "g", "g"], ["g", "g", "g"]],
+# "d": [["y", "y", "y"], ["y", "y", "y"], ["y", "y", "y"]]
